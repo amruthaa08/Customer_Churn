@@ -16,6 +16,7 @@ st.set_page_config(
     layout="wide"
 )
 
+
 # 1. upper navbar
 selected = option_menu(
     menu_title = None,
@@ -80,7 +81,7 @@ with column2:
         if os.path.isfile("historical_data.csv"):
             data = pd.read_csv("historical_data.csv")
             x = data["prediction"]
-            y = {"prediction": [0, 1], "occurences":[len(x)-sum(x), sum(x)]}
+            y = {"prediction": ["not churn", "churn"], "occurences":[len(x)-sum(x), sum(x)]}
             chart_data = pd.DataFrame.from_dict(y)
             st.bar_chart(data=chart_data, x="prediction", y="occurences")
             
@@ -151,7 +152,7 @@ if selected == "Predict":
         
     with st.expander(":red[Feature Dictionary]"):
         st.caption("1. state_code - represents state code of the customer\n  2. tenure - tenure length of customer in months\n  3. contract_length - length of customer's contract\n  4. promotions_offered - has the customer been offered promotions (Y/N)")
-        st.caption("5. remaining_term - remaining term of the customer in months\n")
+        st.caption("5. remaining_term - remaining term of the customer in months\n  6. last_nps_rating - nps rating provided by the customer on a scale of 1-10\n  7. area_code - area code of customer\n  8. international_plan - determines if the customer has an international plan\n  9. voice_mail_plan - determines if the customer has a voice mail plan\n  10. vmail - represents voice mail\n 11. eve - reperesents evening\n  11. intl - represents international")
 
 
     # collect input features
