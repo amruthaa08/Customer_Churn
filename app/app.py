@@ -19,7 +19,8 @@ st.set_page_config(
 # 1. upper navbar
 selected = option_menu(
     menu_title = None,
-    options=["Home", "Predict", "Prediction history", "Our Insights", "Contact"],
+    # options=["Home", "Predict", "Prediction history", "Our Insights", "Contact"],
+    options=["Home", "Predict", "Prediction history", "Our Insights"],
     icons=["house", "bar-chart-line", "box", "file-bar-graph", "chat"],
     orientation="horizontal"
 )
@@ -77,15 +78,21 @@ with column2:
     if selected == "Prediction history":
         st.subheader("Historical Outcomes")
         if os.path.isfile("historical_data.csv"):
-            hist = pd.read_csv("historical_data.csv")
-            fig, ax = plt.subplots(figsize=(7, 3.5))
-            y = sum(hist["prediction"])
-            sns.countplot(x="prediction", data=hist, ax=ax).set_title("Historical Predictions")
-            # st.bar_chart(x="prediction", y=y, data=hist)
-            st.pyplot(fig)
+            data = pd.read_csv("historical_data.csv")
+            x = data["prediction"]
+            y = {"prediction": [0, 1], "occurences":[len(x)-sum(x), sum(x)]}
+            chart_data = pd.DataFrame.from_dict(y)
+            st.bar_chart(data=chart_data, x="prediction", y="occurences")
+            
+            # hist = pd.read_csv("historical_data.csv")
+            # fig, ax = plt.subplots(figsize=(7, 3.5))
+            # y = sum(hist["prediction"])
+            # sns.countplot(x="prediction", data=hist, ax=ax).set_title("Historical Predictions")
+            # # st.bar_chart(x="prediction", y=y, data=hist)
+            # st.pyplot(fig)
             st.divider()
             st.subheader("Historical Input")
-            st.dataframe(hist, use_container_width=False)
+            st.dataframe(data.drop("id", axis=1), use_container_width=False)
         else:
             st.write("No historical data")    
 
@@ -112,15 +119,15 @@ if selected == "Our Insights":
 
 
 
-# 5. Contact page
-if selected == "Contact":
-    col1, col2, col3 = st.columns([1, 4, 1])
-    with col2:
-        st.subheader("We'd love to hear from you!")
-        st.write("You can find us at:")
-        st.markdown("-> amruthaasathiakumar@gmail.com")
-        st.markdown("-> https://www.linkedin.com/in/amruthaa1108/")
-        st.markdown("-> https://github.com/amruthaa08")
+# # 5. Contact page
+# if selected == "Contact":
+#     col1, col2, col3 = st.columns([1, 4, 1])
+#     with col2:
+#         st.subheader("We'd love to hear from you!")
+#         st.write("You can find us at:")
+#         st.markdown("-> amruthaasathiakumar@gmail.com")
+#         st.markdown("-> https://www.linkedin.com/in/amruthaa1108/")
+#         st.markdown("-> https://github.com/amruthaa08")
 
 
 
@@ -141,7 +148,8 @@ if selected == "Predict":
 
     with st.expander(":red[Help]"):
         st.write("Select values from the sidebar and click the :red[Predict] button to get your prediction.")
-        st.write("Feature Dictionary")
+        
+    with st.expander(":red[Feature Dictionary]"):
         st.caption("1. state_code - represents state code of the customer\n  2. tenure - tenure length of customer in months\n  3. contract_length - length of customer's contract\n  4. promotions_offered - has the customer been offered promotions (Y/N)")
         st.caption("5. remaining_term - remaining term of the customer in months\n")
 
