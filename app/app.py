@@ -114,7 +114,13 @@ if selected == "Our Insights":
 
 # 5. Contact page
 if selected == "Contact":
-    st.write("Heyyy")
+    col1, col2, col3 = st.columns([1, 4, 1])
+    with col2:
+        st.subheader("We'd love to hear from you!")
+        st.write("You can find us at:")
+        st.markdown("-> amruthaasathiakumar@gmail.com")
+        st.markdown("-> https://www.linkedin.com/in/amruthaa1108/")
+        st.markdown("-> https://github.com/amruthaa08")
 
 
 
